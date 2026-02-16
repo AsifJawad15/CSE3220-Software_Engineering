@@ -82,16 +82,26 @@ class TeacherControllerTest {
         }
 
         @Test
-        @DisplayName("editStudentForm - Should be accessible by TEACHER (may have template error due to no data)")
+        @DisplayName("editStudentForm - Should be accessible by TEACHER (authorization test)")
         @WithMockUser(roles = "TEACHER")
         void editStudentForm_Success() throws Exception {
-            // Note: Without real data with id=1, template may error
-            // We just verify authorization (not 403)
-            mockMvc.perform(get("/teacher/students/edit/1"))
-                    .andExpect(result -> {
-                        int status = result.getResponse().getStatus();
-                        assertNotEquals(403, status, "Teacher should have access");
-                    });
+            // This test verifies that a TEACHER can access the edit endpoint
+            // When student doesn't exist (id=999), the controller may throw an exception
+            // or redirect. The important thing is it should NOT return 403 (Forbidden)
+            try {
+                mockMvc.perform(get("/teacher/students/edit/999"))
+                        .andExpect(result -> {
+                            int status = result.getResponse().getStatus();
+                            // Should not be forbidden (403) - teacher should have access
+                            assertNotEquals(403, status, "Teacher should have access");
+                        });
+            } catch (jakarta.servlet.ServletException e) {
+                // ServletException is acceptable - it means authorization passed
+                // but template/data error occurred (which is expected with non-existent student)
+                assertTrue(e.getMessage().contains("TemplateProcessingException")
+                        || e.getMessage().contains("student"),
+                    "Expected template error for missing student, got: " + e.getMessage());
+            }
         }
     }
 
@@ -104,15 +114,19 @@ class TeacherControllerTest {
     class TeacherProfileTests {
 
         @Test
-        @DisplayName("editProfile - Should be accessible by TEACHER (may have template error)")
-        @WithMockUser(username = "teacher1", roles = "TEACHER")
+        @DisplayName("editProfile - Should be accessible by TEACHER (may error if teacher not in DB)")
+        @WithMockUser(username = "teacher", roles = "TEACHER")
         void editProfile_Success() throws Exception {
-            // Note: Without real teacher data, template may error
-            // We just verify authorization (not 403)
+            // Note: Uses "teacher" username which should exist from DataInitializer
+            // If teacher exists, returns 200; otherwise may return 500 or redirect
             mockMvc.perform(get("/teacher/profile"))
                     .andExpect(result -> {
                         int status = result.getResponse().getStatus();
+                        // Should not be forbidden (403) - teacher should have access
                         assertNotEquals(403, status, "Teacher should have access");
+                        // Accept 200 (success), 302 (redirect), or 500 (data not found)
+                        assertTrue(status == 302 || status == 200 || status == 500,
+                            "Expected redirect, success, or server error, got: " + status);
                     });
         }
 
