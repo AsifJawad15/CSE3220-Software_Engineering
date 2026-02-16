@@ -149,8 +149,7 @@ class TeacherServiceTest {
     }
 
     // ═══════════════════════════════════════════════════════════════════════════
-    // DEPARTMENT CRUD TESTS
-    // ═══════════════════════════════════════════════════════════════════════════
+    // DEPARTMENT CRUD 
 
     @Nested
     @DisplayName("Department CRUD Operations")
