@@ -1,0 +1,445 @@
+/*
+ * CUSTOM STYLES - Teal/Cyan Theme
+ * Different from reference project (which uses blue)
+ *
+ * Color Palette:
+ * - Primary: #00897B (Teal)
+ * - Secondary: #26A69A (Light Teal)
+ * - Accent: #FF7043 (Coral Orange)
+ * - Success: #66BB6A (Green)
+ * - Danger: #EF5350 (Red)
+ * - Background: #ECEFF1 (Light Gray)
+ */
+
+/* Reset and Base */
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+}
+
+body {
+    font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+    background: linear-gradient(135deg, #ECEFF1 0%, #CFD8DC 100%);
+    min-height: 100vh;
+    padding: 20px;
+    color: #37474F;
+}
+
+/* Container Styles */
+.container {
+    max-width: 1100px;
+    margin: 0 auto;
+    padding: 30px;
+    background: white;
+    border-radius: 12px;
+    box-shadow: 0 4px 20px rgba(0, 0, 0, 0.1);
+}
+
+.container-small {
+    max-width: 450px;
+}
+
+.container-medium {
+    max-width: 700px;
+}
+
+/* Typography */
+h1 {
+    text-align: center;
+    color: #00897B;
+    margin-bottom: 10px;
+    font-size: 2rem;
+}
+
+h2 {
+    color: #00695C;
+    margin: 25px 0 15px;
+    font-size: 1.4rem;
+    border-bottom: 2px solid #E0F2F1;
+    padding-bottom: 10px;
+}
+
+/* Navigation */
+.nav-links {
+    display: flex;
+    justify-content: center;
+    gap: 20px;
+    padding: 15px;
+    background: #E0F2F1;
+    border-radius: 8px;
+    margin-bottom: 25px;
+    flex-wrap: wrap;
+}
+
+.nav-links a {
+    color: #00695C;
+    text-decoration: none;
+    padding: 8px 16px;
+    border-radius: 20px;
+    transition: all 0.3s ease;
+    font-weight: 500;
+}
+
+.nav-links a:hover {
+    background: #00897B;
+    color: white;
+}
+
+/* Form Styles */
+.form-group {
+    margin-bottom: 20px;
+}
+
+label {
+    display: block;
+    margin-bottom: 8px;
+    font-weight: 600;
+    color: #455A64;
+}
+
+input[type="text"],
+input[type="password"],
+input[type="email"],
+input[type="number"],
+textarea,
+select {
+    width: 100%;
+    padding: 12px 15px;
+    border: 2px solid #B0BEC5;
+    border-radius: 8px;
+    font-size: 14px;
+    transition: border-color 0.3s, box-shadow 0.3s;
+}
+
+input:focus,
+textarea:focus,
+select:focus {
+    outline: none;
+    border-color: #00897B;
+    box-shadow: 0 0 0 3px rgba(0, 137, 123, 0.1);
+}
+
+textarea {
+    min-height: 100px;
+    resize: vertical;
+}
+
+/* Buttons */
+.button-group {
+    display: flex;
+    justify-content: center;
+    gap: 15px;
+    margin-top: 25px;
+    flex-wrap: wrap;
+}
+
+button,
+.btn {
+    padding: 12px 24px;
+    border: none;
+    border-radius: 25px;
+    cursor: pointer;
+    text-decoration: none;
+    display: inline-block;
+    font-size: 14px;
+    font-weight: 600;
+    transition: all 0.3s ease;
+    text-align: center;
+}
+
+.btn-primary,
+button[type="submit"] {
+    background: linear-gradient(135deg, #00897B 0%, #00695C 100%);
+    color: white;
+}
+
+.btn-primary:hover,
+button[type="submit"]:hover {
+    transform: translateY(-2px);
+    box-shadow: 0 4px 12px rgba(0, 137, 123, 0.4);
+}
+
+.btn-secondary,
+.btn {
+    background: #ECEFF1;
+    color: #455A64;
+    border: 2px solid #B0BEC5;
+}
+
+.btn-secondary:hover,
+.btn:hover {
+    background: #CFD8DC;
+}
+
+.btn-success {
+    background: linear-gradient(135deg, #66BB6A 0%, #43A047 100%);
+    color: white;
+}
+
+.btn-success:hover {
+    transform: translateY(-2px);
+    box-shadow: 0 4px 12px rgba(102, 187, 106, 0.4);
+}
+
+.btn-danger {
+    background: linear-gradient(135deg, #EF5350 0%, #E53935 100%);
+    color: white;
+}
+
+.btn-danger:hover {
+    transform: translateY(-2px);
+    box-shadow: 0 4px 12px rgba(239, 83, 80, 0.4);
+}
+
+.btn-warning {
+    background: linear-gradient(135deg, #FF7043 0%, #F4511E 100%);
+    color: white;
+}
+
+/* Tables */
+table {
+    width: 100%;
+    border-collapse: collapse;
+    margin: 20px 0;
+    background: white;
+    border-radius: 8px;
+    overflow: hidden;
+    box-shadow: 0 2px 10px rgba(0, 0, 0, 0.05);
+}
+
+th {
+    background: linear-gradient(135deg, #00897B 0%, #00695C 100%);
+    color: white;
+    padding: 15px;
+    text-align: left;
+    font-weight: 600;
+}
+
+td {
+    padding: 12px 15px;
+    border-bottom: 1px solid #ECEFF1;
+}
+
+tr:hover {
+    background: #E0F2F1;
+}
+
+tr:last-child td {
+    border-bottom: none;
+}
+
+.table-actions {
+    display: flex;
+    gap: 8px;
+    flex-wrap: wrap;
+}
+
+.table-actions a {
+    padding: 6px 12px;
+    border-radius: 15px;
+    text-decoration: none;
+    font-size: 12px;
+    font-weight: 500;
+}
+
+.table-actions a:first-child {
+    background: #E0F2F1;
+    color: #00695C;
+}
+
+.table-actions a:first-child:hover {
+    background: #00897B;
+    color: white;
+}
+
+.table-actions .btn-danger {
+    font-size: 12px;
+    padding: 6px 12px;
+}
+
+/* Messages / Alerts */
+.message {
+    padding: 15px 20px;
+    border-radius: 8px;
+    margin-bottom: 20px;
+    text-align: center;
+    font-weight: 500;
+}
+
+.message-error {
+    background: #FFEBEE;
+    color: #C62828;
+    border-left: 4px solid #EF5350;
+}
+
+.message-success {
+    background: #E8F5E9;
+    color: #2E7D32;
+    border-left: 4px solid #66BB6A;
+}
+
+.message-info {
+    background: #E0F7FA;
+    color: #00695C;
+    border-left: 4px solid #00897B;
+}
+
+/* Cards */
+.card {
+    background: white;
+    border-radius: 10px;
+    padding: 25px;
+    margin: 15px 0;
+    box-shadow: 0 2px 10px rgba(0, 0, 0, 0.08);
+    border: 1px solid #E0E0E0;
+}
+
+.card-title {
+    color: #00897B;
+    font-size: 1.2rem;
+    margin-bottom: 15px;
+}
+
+/* Dashboard Menu */
+.dashboard-menu {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+    gap: 20px;
+    margin-top: 30px;
+}
+
+.menu-item {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    padding: 30px 20px;
+    background: linear-gradient(135deg, #E0F2F1 0%, #B2DFDB 100%);
+    border-radius: 12px;
+    text-decoration: none;
+    color: #00695C;
+    transition: all 0.3s ease;
+    text-align: center;
+}
+
+.menu-item:hover {
+    transform: translateY(-5px);
+    box-shadow: 0 8px 25px rgba(0, 137, 123, 0.2);
+    background: linear-gradient(135deg, #00897B 0%, #00695C 100%);
+    color: white;
+}
+
+.menu-item span {
+    font-size: 2.5rem;
+    margin-bottom: 10px;
+}
+
+.menu-item strong {
+    font-size: 1rem;
+}
+
+/* Profile Display */
+.profile-info {
+    display: grid;
+    grid-template-columns: 150px 1fr;
+    gap: 10px 20px;
+    padding: 20px;
+    background: #FAFAFA;
+    border-radius: 8px;
+}
+
+.profile-info dt {
+    font-weight: 600;
+    color: #00695C;
+}
+
+.profile-info dd {
+    color: #455A64;
+}
+
+/* Empty State */
+.empty-state {
+    text-align: center;
+    padding: 50px 20px;
+    color: #78909C;
+}
+
+.empty-state::before {
+    content: "📭";
+    font-size: 3rem;
+    display: block;
+    margin-bottom: 15px;
+}
+
+/* Utility Classes */
+.text-center {
+    text-align: center;
+}
+
+.text-right {
+    text-align: right;
+}
+
+.mb-10 {
+    margin-bottom: 10px;
+}
+
+.mb-20 {
+    margin-bottom: 20px;
+}
+
+.mt-20 {
+    margin-top: 20px;
+}
+
+.mt-30 {
+    margin-top: 30px;
+}
+
+/* Welcome Text */
+.welcome-text {
+    text-align: center;
+    font-size: 1.1rem;
+    color: #546E7A;
+    margin-bottom: 20px;
+}
+
+.welcome-text strong {
+    color: #00897B;
+}
+
+/* Responsive Design */
+@media (max-width: 768px) {
+    body {
+        padding: 10px;
+    }
+
+    .container {
+        padding: 20px;
+    }
+
+    h1 {
+        font-size: 1.5rem;
+    }
+
+    table {
+        font-size: 13px;
+    }
+
+    th, td {
+        padding: 10px 8px;
+    }
+
+    .nav-links {
+        flex-direction: column;
+        align-items: center;
+    }
+
+    .dashboard-menu {
+        grid-template-columns: 1fr;
+    }
+
+    .profile-info {
+        grid-template-columns: 1fr;
+    }
+}

@@ -1,0 +1,69 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<!--
+    DEPARTMENTS LIST PAGE
+-->
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Manage Departments - Teacher</title>
+    <link rel="stylesheet" th:href="@{/css/styles.css}">
+</head>
+<body>
+    <div class="container">
+        <h1>🏛️ Manage Departments</h1>
+
+        <!-- Navigation -->
+        <div class="nav-links">
+            <a th:href="@{/dashboard}">🏠 Dashboard</a>
+            <a th:href="@{/teacher/students}">🎓 Students</a>
+            <a th:href="@{/teacher/courses}">📖 Courses</a>
+        </div>
+
+        <!-- Add New Button -->
+        <div class="text-center mb-20">
+            <a th:href="@{/teacher/departments/new}" class="btn btn-success">➕ Add New Department</a>
+        </div>
+
+        <!-- Departments Table -->
+        <table>
+            <thead>
+                <tr>
+                    <th>ID</th>
+                    <th>Code</th>
+                    <th>Name</th>
+                    <th>Description</th>
+                    <th>Actions</th>
+                </tr>
+            </thead>
+            <tbody>
+                <tr th:each="dept : ${departments}">
+                    <td th:text="${dept.id}">1</td>
+                    <td th:text="${dept.code}">CSE</td>
+                    <td th:text="${dept.name}">Computer Science</td>
+                    <td th:text="${dept.description} ?: 'N/A'">Description</td>
+                    <td class="table-actions">
+                        <a th:href="@{/teacher/departments/edit/{id}(id=${dept.id})}">✏️ Edit</a>
+                        <a th:href="@{/teacher/departments/delete/{id}(id=${dept.id})}"
+                           class="btn-danger"
+                           onclick="return confirm('Are you sure? This may affect students and teachers in this department.')">
+                            🗑️ Delete
+                        </a>
+                    </td>
+                </tr>
+
+                <tr th:if="${#lists.isEmpty(departments)}">
+                    <td colspan="5" class="empty-state">
+                        No departments found. Click "Add New Department" to create one!
+                    </td>
+                </tr>
+            </tbody>
+        </table>
+
+        <!-- Back Button -->
+        <div class="button-group">
+            <a th:href="@{/dashboard}" class="btn btn-secondary">← Back to Dashboard</a>
+        </div>
+    </div>
+</body>
+</html>

@@ -1,0 +1,72 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<!--
+    STUDENT PROFILE PAGE (READ ONLY)
+
+    This page displays the logged-in student's information.
+    Students CANNOT edit their profile - only view it.
+
+    Thymeleaf Expressions:
+    - ${student.firstName} → Gets firstName property from student object
+    - th:text="${...}" → Replaces element content with expression value
+    - ?: 'N/A' → Elvis operator - shows 'N/A' if value is null
+-->
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>My Profile - Student</title>
+    <link rel="stylesheet" th:href="@{/css/styles.css}">
+</head>
+<body>
+    <div class="container container-medium">
+        <h1>👤 My Profile</h1>
+
+        <!-- Navigation -->
+        <div class="nav-links">
+            <a th:href="@{/dashboard}">🏠 Dashboard</a>
+            <a th:href="@{/student/courses}">📚 My Courses</a>
+        </div>
+
+        <!-- Profile Card -->
+        <div class="card">
+            <h2 class="card-title">Personal Information</h2>
+
+            <!-- Profile Info Display -->
+            <dl class="profile-info">
+                <dt>Student ID</dt>
+                <dd th:text="${student.studentId} ?: 'Not assigned'">STU001</dd>
+
+                <dt>Username</dt>
+                <dd th:text="${student.username}">username</dd>
+
+                <dt>First Name</dt>
+                <dd th:text="${student.firstName} ?: 'N/A'">John</dd>
+
+                <dt>Last Name</dt>
+                <dd th:text="${student.lastName} ?: 'N/A'">Doe</dd>
+
+                <dt>Email</dt>
+                <dd th:text="${student.email} ?: 'N/A'">email@example.com</dd>
+
+                <dt>Phone</dt>
+                <dd th:text="${student.phoneNumber} ?: 'N/A'">123-456-7890</dd>
+
+                <dt>Department</dt>
+                <dd th:text="${student.department != null} ? ${student.department.name} : 'Not assigned'">
+                    Computer Science
+                </dd>
+            </dl>
+        </div>
+
+        <!-- Info Message -->
+        <div class="message message-info mt-20">
+            ℹ️ To update your profile information, please contact your teacher or administrator.
+        </div>
+
+        <!-- Back Button -->
+        <div class="button-group">
+            <a th:href="@{/dashboard}" class="btn btn-secondary">← Back to Dashboard</a>
+        </div>
+    </div>
+</body>
+</html>
