@@ -1,5 +1,6 @@
 package com.marketplace.minimarketplace.controller;
 import com.marketplace.minimarketplace.dto.request.OrderRequest;
+import com.marketplace.minimarketplace.dto.request.OrderStatusRequest;
 import com.marketplace.minimarketplace.dto.response.OrderResponse;
 import com.marketplace.minimarketplace.service.OrderService;
 import io.swagger.v3.oas.annotations.Operation;
@@ -18,6 +19,8 @@ public class OrderController {
     public ResponseEntity<OrderResponse> placeOrder(@Valid @RequestBody OrderRequest request, Authentication auth) { return ResponseEntity.status(HttpStatus.CREATED).body(orderService.placeOrder(auth.getName(), request)); }
     @GetMapping @Operation(summary = "Get my orders")
     public ResponseEntity<List<OrderResponse>> getMyOrders(Authentication auth) { return ResponseEntity.ok(orderService.getOrdersByUser(auth.getName())); }
-    @GetMapping("/{id}") @Operation(summary = "Get order by ID")
+    @GetMapping("/{id}") @Operation(summary = "Get order by ID (with items)")
     public ResponseEntity<OrderResponse> getOrderById(@PathVariable Long id, Authentication auth) { return ResponseEntity.ok(orderService.getOrderById(id, auth.getName())); }
+    @PatchMapping("/{id}/status") @Operation(summary = "Update order status (triggers Observer notification)")
+    public ResponseEntity<OrderResponse> updateOrderStatus(@PathVariable Long id, @Valid @RequestBody OrderStatusRequest request, Authentication auth) { return ResponseEntity.ok(orderService.updateOrderStatus(id, request.getStatus(), auth.getName())); }
 }
