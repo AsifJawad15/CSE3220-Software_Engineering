@@ -1,114 +1,57 @@
-# ═══════════════════════════════════════════════════════════════════════════════
-# CI/CD PIPELINE - GitHub Actions Workflow
-# ═══════════════════════════════════════════════════════════════════════════════
-#
-# WHAT IS CI/CD?
-# - CI = Continuous Integration: Automatically test code when pushed
-# - CD = Continuous Deployment: Automatically deploy after tests pass
-#
-# WHAT IS GITHUB ACTIONS?
-# - GitHub's built-in automation tool
-# - Runs on GitHub's servers (free for public repos)
-# - Triggered by events (push, pull request, etc.)
-#
-# WHAT IS A WORKFLOW?
-# - A YAML file that defines automation steps
-# - Located in .github/workflows/ directory
-# - Runs in a virtual machine (ubuntu-latest)
-#
-# WHAT IS A JOB?
-# - A set of steps that run on the same machine
-# - Jobs can run in parallel or sequentially
-#
-# WHAT IS A STEP?
-# - A single command or action
-# - Steps run one after another
-#
-# ═══════════════════════════════════════════════════════════════════════════════
-
-name: CI/CD Pipeline
-
-# WHEN TO RUN THIS WORKFLOW
+﻿name: CI/CD Pipeline
 on:
-  # Run on push to these branches
   push:
-    branches: [ main, CI_CD_testing, testing, feature/* ]
-
-  # Run on pull requests to these branches
+    branches: [main]
   pull_request:
-    branches: [ main, CI_CD_testing ]
-
-# WHAT TO DO
+    branches: [main]
 jobs:
-  # ═══════════════════════════════════════════════════════════════════════════
-  # JOB 1: RUN TESTS
-  # ═══════════════════════════════════════════════════════════════════════════
-  test:
-    name: Run Unit & Integration Tests
-    runs-on: ubuntu-latest  # Uses GitHub's Ubuntu virtual machine
-
-    steps:
-      # Step 1: Checkout code from repository
-      - name: Checkout code
-        uses: actions/checkout@v4
-        # This downloads your repository code to the runner
-
-      # Step 2: Set up Java
-      - name: Set up JDK 22
-        uses: actions/setup-java@v4
-        with:
-          java-version: '22'
-          distribution: 'temurin'  # Eclipse Temurin JDK
-          cache: maven  # Cache Maven dependencies for faster builds
-
-      # Step 3: Cache Maven packages (speeds up builds)
-      - name: Cache Maven packages
-        uses: actions/cache@v4
-        with:
-          path: ~/.m2
-          key: ${{ runner.os }}-m2-${{ hashFiles('**/pom.xml') }}
-          restore-keys: ${{ runner.os }}-m2
-
-      # Step 4: Run all tests
-      - name: Run Tests
-        run: mvn test -Dspring.profiles.active=test -B
-        # -Dspring.profiles.active=test → Use H2 database (not PostgreSQL)
-        # -B → Batch mode (non-interactive)
-
-      # Step 5: Upload test results as artifact
-      - name: Upload Test Results
-        uses: actions/upload-artifact@v4
-        if: always()  # Run even if tests fail
-        with:
-          name: test-results
-          path: target/surefire-reports/
-
-  # ═══════════════════════════════════════════════════════════════════════════
-  # JOB 2: BUILD APPLICATION
-  # ═══════════════════════════════════════════════════════════════════════════
-  build:
-    name: Build Application
+  build-and-test:
     runs-on: ubuntu-latest
-    needs: test  # Only run if tests pass
-
+    services:
+      postgres:
+        image: postgres:16-alpine
+        env:
+          POSTGRES_DB: marketplace_test
+          POSTGRES_USER: postgres
+          POSTGRES_PASSWORD: postgres
+        ports:
+          - 5432:5432
+        options: >-
+          --health-cmd pg_isready
+          --health-interval 10s
+          --health-timeout 5s
+          --health-retries 5
     steps:
-      - name: Checkout code
-        uses: actions/checkout@v4
-
-      - name: Set up JDK 22
+      - uses: actions/checkout@v4
+      - name: Set up JDK 17
         uses: actions/setup-java@v4
         with:
-          java-version: '22'
+          java-version: '17'
           distribution: 'temurin'
           cache: maven
-
-      # Build the application (skip tests since they already passed)
-      - name: Build with Maven
-        run: mvn package -DskipTests -B
-
-      # Upload the JAR file as artifact
-      - name: Upload JAR artifact
-        uses: actions/upload-artifact@v4
-        with:
-          name: app-jar
-          path: target/*.jar
+      - name: Run Tests
+        run: mvn clean test -Dspring.profiles.active=test --no-transfer-progress
+        env:
+          SPRING_DATASOURCE_URL: jdbc:postgresql://localhost:5432/marketplace_test
+          SPRING_DATASOURCE_USERNAME: postgres
+          SPRING_DATASOURCE_PASSWORD: postgres
+          JWT_SECRET: dGhpcyBpcyBhIHZlcnkgbG9uZyBzZWNyZXQga2V5IGZvciBkZXZlbG9wbWVudCBwdXJwb3NlcyBvbmx5IQ==
+      - name: Build Package
+        run: mvn package -DskipTests --no-transfer-progress
+      - name: Build Docker Image
+        run: docker build -t mini-marketplace:${{ github.sha }} .
+  deploy:
+    needs: build-and-test
+    runs-on: ubuntu-latest
+    if: github.ref == 'refs/heads/main' && github.event_name == 'push'
+    steps:
+      - uses: actions/checkout@v4
+      - name: Deploy to Render
+        env:
+          RENDER_DEPLOY_HOOK: ${{ secrets.RENDER_DEPLOY_HOOK_URL }}
+        run: |
+          if [ -n "$RENDER_DEPLOY_HOOK" ]; then
+            curl -X POST "$RENDER_DEPLOY_HOOK"
+          else
+            echo "RENDER_DEPLOY_HOOK_URL not set, skipping deployment"
+          fi
