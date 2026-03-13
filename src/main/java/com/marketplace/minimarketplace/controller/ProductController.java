@@ -10,6 +10,7 @@ import org.springframework.data.domain.Pageable;
 import org.springframework.data.web.PageableDefault;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.web.bind.annotation.*;
 @RestController @RequestMapping("/api/products") @Tag(name = "Products")
 public class ProductController {
@@ -22,10 +23,13 @@ public class ProductController {
     }
     @GetMapping("/{id}") @Operation(summary = "Get product by ID")
     public ResponseEntity<ProductResponse> getProductById(@PathVariable Long id) { return ResponseEntity.ok(productService.getProductById(id)); }
+    @PreAuthorize("hasRole('ADMIN')")
     @PostMapping @Operation(summary = "Create product (Admin)")
     public ResponseEntity<ProductResponse> createProduct(@Valid @RequestBody ProductRequest request) { return ResponseEntity.status(HttpStatus.CREATED).body(productService.createProduct(request)); }
+    @PreAuthorize("hasRole('ADMIN')")
     @PutMapping("/{id}") @Operation(summary = "Update product (Admin)")
     public ResponseEntity<ProductResponse> updateProduct(@PathVariable Long id, @Valid @RequestBody ProductRequest request) { return ResponseEntity.ok(productService.updateProduct(id, request)); }
+    @PreAuthorize("hasRole('ADMIN')")
     @DeleteMapping("/{id}") @Operation(summary = "Delete product (Admin)")
     public ResponseEntity<Void> deleteProduct(@PathVariable Long id) { productService.deleteProduct(id); return ResponseEntity.noContent().build(); }
 }

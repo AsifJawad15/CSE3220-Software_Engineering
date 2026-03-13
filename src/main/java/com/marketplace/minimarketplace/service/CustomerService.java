@@ -35,7 +35,7 @@ public class CustomerService {
                 .name(request.getName())
                 .email(request.getEmail())
                 .password(passwordEncoder.encode(request.getPassword()))
-                .role("ROLE_USER")
+                .role("ROLE_CUSTOMER")
                 .build();
         UserProfile profile = UserProfile.builder()
                 .user(user)

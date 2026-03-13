@@ -12,9 +12,9 @@ import org.springframework.web.filter.OncePerRequestFilter;
 import java.io.IOException;
 import java.util.List;
 @Component
-public class JwtAuthFilter extends OncePerRequestFilter {
+public class JwtAuthenticationFilter extends OncePerRequestFilter {
     private final JwtService jwtService;
-    public JwtAuthFilter(JwtService jwtService) { this.jwtService = jwtService; }
+    public JwtAuthenticationFilter(JwtService jwtService) { this.jwtService = jwtService; }
     @Override
     protected void doFilterInternal(HttpServletRequest request, HttpServletResponse response, FilterChain filterChain) throws ServletException, IOException {
         String authHeader = request.getHeader("Authorization");

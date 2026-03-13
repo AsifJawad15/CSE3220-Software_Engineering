@@ -22,7 +22,7 @@ public class AuthService {
     @Transactional
     public AuthResponse register(RegisterRequest request) {
         if (userRepository.existsByEmail(request.getEmail())) throw new DuplicateResourceException("Email already registered: " + request.getEmail());
-        User user = User.builder().name(request.getName()).email(request.getEmail()).password(passwordEncoder.encode(request.getPassword())).role("ROLE_USER").build();
+        User user = User.builder().name(request.getName()).email(request.getEmail()).password(passwordEncoder.encode(request.getPassword())).role("ROLE_CUSTOMER").build();
         UserProfile profile = UserProfile.builder().user(user).phone(request.getPhone()).address(request.getAddress()).build();
         user.setProfile(profile);
         userRepository.save(user);
