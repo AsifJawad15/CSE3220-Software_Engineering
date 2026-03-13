@@ -1,7 +1,8 @@
-﻿version: '3.8'
-services:
+﻿services:
   db:
     image: postgres:16-alpine
+    container_name: mini-marketplace-db
+    restart: unless-stopped
     environment:
       POSTGRES_DB: marketplace
       POSTGRES_USER: postgres
@@ -15,18 +16,22 @@ services:
       interval: 10s
       timeout: 5s
       retries: 5
+
   app:
     build: .
+    container_name: mini-marketplace-app
+    restart: unless-stopped
     depends_on:
       db:
         condition: service_healthy
     environment:
-      SPRING_PROFILES_ACTIVE: dev
+      SPRING_PROFILES_ACTIVE: prod
       SPRING_DATASOURCE_URL: jdbc:postgresql://db:5432/marketplace
       SPRING_DATASOURCE_USERNAME: postgres
       SPRING_DATASOURCE_PASSWORD: postgres
       JWT_SECRET: dGhpcyBpcyBhIHZlcnkgbG9uZyBzZWNyZXQga2V5IGZvciBkZXZlbG9wbWVudCBwdXJwb3NlcyBvbmx5IQ==
     ports:
       - "8080:8080"
+
 volumes:
   pgdata:
