@@ -1,0 +1,19 @@
+﻿spring:
+  application:
+    name: mini-marketplace
+  profiles:
+    active: dev
+server:
+  port: 8080
+# Springdoc
+springdoc:
+  swagger-ui:
+    path: /swagger-ui.html
+  api-docs:
+    path: /v3/api-docs
+# Actuator
+management:
+  endpoints:
+    web:
+      exposure:
+        include: health,info
