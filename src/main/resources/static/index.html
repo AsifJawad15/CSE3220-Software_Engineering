@@ -1,0 +1,40 @@
+<!doctype html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Mini Marketplace - Catalog</title>
+    <link rel="stylesheet" href="/css/site.css">
+</head>
+<body>
+<header class="topbar">
+    <div class="container row between center wrap gap">
+        <a class="brand" href="/">Mini Marketplace</a>
+        <nav class="row gap wrap">
+            <a class="btn nav-btn" href="/">Catalog</a>
+            <a class="btn nav-btn" href="/orders">My Orders</a>
+            <a id="admin-link" class="btn nav-btn hidden" href="/admin">Admin</a>
+            <a class="btn nav-btn" href="/swagger-ui.html">Swagger</a>
+        </nav>
+        <div class="row gap center wrap">
+            <span id="user-badge" class="badge">Guest</span>
+            <a id="login-link" class="btn nav-btn" href="/login">Login</a>
+            <a id="register-link" class="btn nav-btn" href="/register">Register</a>
+            <button id="logout-btn" class="danger hidden" type="button">Logout</button>
+            <a id="cart-link" class="btn primary" href="/cart">Cart (0)</a>
+        </div>
+    </div>
+</header>
+
+<main class="container page">
+    <section id="alerts"></section>
+    <section class="row between center wrap gap">
+        <h2>Product Catalog</h2>
+        <input id="search-input" type="search" placeholder="Search product...">
+    </section>
+    <section id="products" class="grid"></section>
+</main>
+
+<script type="module" src="/js/catalog.js"></script>
+</body>
+</html>

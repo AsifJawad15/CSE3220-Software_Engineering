@@ -35,4 +35,14 @@ public class AuthService {
         String token = jwtService.generateToken(user.getEmail(), user.getRole());
         return UserMapper.toAuthResponse(user, token);
     }
+
+    public AuthResponse getCurrentUser(String email) {
+        User user = userRepository.findByEmail(email)
+                .orElseThrow(() -> new UnauthorizedException("Invalid session"));
+        return AuthResponse.builder()
+                .email(user.getEmail())
+                .role(user.getRole())
+                .name(user.getName())
+                .build();
+    }
 }

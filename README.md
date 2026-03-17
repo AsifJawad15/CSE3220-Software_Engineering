@@ -1,58 +1,56 @@
-# Mini Marketplace — CSE 3220 Software Engineering Lab Project
+# Mini Marketplace - Full Stack (API + Multi-Page Web UI)
 
-## 🏗️ Tech Stack
-- **Backend:** Spring Boot 3.2, Java 17
-- **Database:** PostgreSQL 16 + Flyway migrations
-- **Auth:** JWT (jjwt) + Spring Security
-- **Docs:** SpringDoc OpenAPI (Swagger UI)
-- **Testing:** JUnit 5, Mockito, H2, Testcontainers
-- **DevOps:** Docker, GitHub Actions CI/CD, Render
+Mini Marketplace includes:
+- Spring Boot backend REST APIs (auth, products, orders, admin)
+- Multi-page frontend served by Spring Boot static resources
 
-## 📦 Prerequisites
-- Java 17+
-- Maven 3.9+
-- Docker & Docker Compose
-- PostgreSQL 16 (or use Docker)
+## Features
+- Register and login with JWT
+- Product catalog and search
+- Cart and checkout using pricing strategy selection (Strategy pattern)
+- Gift wrap and express shipping options per item (Decorator pattern)
+- Order tracking for customers
+- Admin product CRUD and order status updates (Observer notifications are triggered on status updates)
 
-## 🚀 Quick Start
+## Tech Stack
+- Backend: Spring Boot, Spring Security, Spring Data JPA, Flyway
+- Frontend: HTML, CSS, JavaScript (ES modules)
+- Database: PostgreSQL
 
-### 1. Clone & Run with Docker Compose
-```bash
-git clone https://github.com/AsifJawad15/CSE3220-Software_Engineering.git
-cd CSE3220-Software_Engineering
-docker compose up --build
-```
-App runs at: `http://localhost:8080`  
-Swagger UI: `http://localhost:8080/swagger-ui/index.html`
-
-### 2. Run Locally (without Docker)
-```bash
-# Start PostgreSQL (ensure it's running on port 5432)
-# Update application-dev.yml with your DB credentials
-
-mvn clean install
-mvn spring-boot:run -Dspring-boot.run.profiles=dev
+## Run Locally (PowerShell)
+```powershell
+Set-Location "D:\3.2\SWE\lab\Project\mini-marketplace"
+.\mvnw.cmd -DskipTests package
+.\mvnw.cmd spring-boot:run
 ```
 
-### 3. Run Tests
-```bash
-mvn clean test
+## Frontend URLs
+- Home / Catalog: `http://localhost:8080/`
+- Login: `http://localhost:8080/login`
+- Register: `http://localhost:8080/register`
+- Cart: `http://localhost:8080/cart`
+- Orders: `http://localhost:8080/orders`
+- Admin: `http://localhost:8080/admin`
+
+## API Docs
+- Swagger UI: `http://localhost:8080/swagger-ui.html`
+- OpenAPI: `http://localhost:8080/v3/api-docs`
+
+## Seed Accounts
+(from `src/main/resources/db/migration/V2__seed_data.sql`)
+- Admin: `admin@market.com` / `admin123`
+- User: `alice@market.com` / `password123`
+- User: `bob@market.com` / `password123`
+
+## Frontend Source Files
+- Pages: `src/main/resources/static/*.html`
+- Styles: `src/main/resources/static/css/site.css`
+- Scripts: `src/main/resources/static/js/*.js`
+
+## Push to GitHub
+```powershell
+Set-Location "D:\3.2\SWE\lab\Project\mini-marketplace"
+git add .
+git commit -m "Convert storefront to proper multi-page mini marketplace UI"
+git push origin <your-branch>
 ```
-
-## 📐 Design Patterns
-- **Observer:** Order event notifications (inventory, email, analytics)
-- **Strategy:** Pricing/discount strategies (no discount, percentage, bulk)
-- **Decorator:** Order enhancements (gift wrap, express shipping)
-
-## 🔐 API Authentication
-1. Register: `POST /api/auth/register`
-2. Login: `POST /api/auth/login` → returns JWT token
-3. Use token: `Authorization: Bearer <token>` header
-
-## 👥 Team
-- **ASIF** — Auth, Security, CI/CD, Docker
-- **SALEK** — Products, Orders, Deployment, DB Schema
-
-## 📄 License
-Academic project — CSE 3220, Spring 2026
-

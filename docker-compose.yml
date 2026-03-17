@@ -8,9 +8,9 @@
       POSTGRES_USER: postgres
       POSTGRES_PASSWORD: postgres
     ports:
-      - "5432:5432"
+      - "5433:5432"
     volumes:
-      - pgdata:/var/lib/postgresql/data
+      - mini_marketplace_pgdata:/var/lib/postgresql/data
     healthcheck:
       test: ["CMD-SHELL", "pg_isready -U postgres"]
       interval: 10s
@@ -34,4 +34,4 @@
       - "8080:8080"
 
 volumes:
-  pgdata:
+  mini_marketplace_pgdata:

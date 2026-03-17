@@ -1,0 +1,73 @@
+<!doctype html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Mini Marketplace - Admin</title>
+    <link rel="stylesheet" href="/css/site.css">
+</head>
+<body>
+<header class="topbar">
+    <div class="container row between center wrap gap">
+        <a class="brand" href="/">Mini Marketplace</a>
+        <nav class="row gap wrap">
+            <a class="btn nav-btn" href="/">Catalog</a>
+            <a class="btn nav-btn" href="/orders">My Orders</a>
+            <a id="admin-link" class="btn nav-btn" href="/admin">Admin</a>
+        </nav>
+        <div class="row gap center wrap">
+            <span id="user-badge" class="badge">Guest</span>
+            <a id="login-link" class="btn nav-btn" href="/login">Login</a>
+            <a id="register-link" class="btn nav-btn" href="/register">Register</a>
+            <button id="logout-btn" class="danger hidden" type="button">Logout</button>
+            <a id="cart-link" class="btn primary" href="/cart">Cart (0)</a>
+        </div>
+    </div>
+</header>
+
+<main class="container page">
+    <section id="alerts"></section>
+    <h2>Admin Dashboard</h2>
+    <section class="panel">
+        <section class="card stack">
+            <h3>Product Management</h3>
+            <div class="row gap center wrap">
+                <input id="inventory-search" placeholder="Search inventory by product name">
+                <button id="inventory-prev" class="secondary" type="button">Prev</button>
+                <button id="inventory-next" class="secondary" type="button">Next</button>
+                <span id="inventory-page-info" class="badge">Page 1 of 1</span>
+            </div>
+            <form id="product-form" class="stack">
+                <input id="product-id" type="hidden">
+                <label>Name
+                    <input id="name" required>
+                </label>
+                <label>Price
+                    <input id="price" type="number" min="0.01" step="0.01" required>
+                </label>
+                <label>Stock
+                    <input id="stock" type="number" min="0" required>
+                </label>
+                <label>Description
+                    <textarea id="description"></textarea>
+                </label>
+                <div class="row gap">
+                    <button class="primary" type="submit">Save Product</button>
+                    <button id="clear-btn" class="secondary" type="button">Clear</button>
+                </div>
+            </form>
+            <section id="admin-products" class="stack"></section>
+        </section>
+
+        <section class="card stack">
+            <h3>Order Status Control (Observer pattern trigger)</h3>
+            <section id="admin-orders" class="stack"></section>
+        </section>
+    </section>
+</main>
+
+<script type="module" src="/js/admin.js"></script>
+</body>
+</html>
+
+

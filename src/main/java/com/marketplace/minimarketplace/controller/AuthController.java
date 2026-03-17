@@ -8,6 +8,7 @@ import io.swagger.v3.oas.annotations.tags.Tag;
 import jakarta.validation.Valid;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.core.Authentication;
 import org.springframework.web.bind.annotation.*;
 @RestController @RequestMapping("/api/auth") @Tag(name = "Authentication")
 public class AuthController {
@@ -17,4 +18,10 @@ public class AuthController {
     public ResponseEntity<AuthResponse> register(@Valid @RequestBody RegisterRequest request) { return ResponseEntity.status(HttpStatus.CREATED).body(authService.register(request)); }
     @PostMapping("/login") @Operation(summary = "Login and get JWT token")
     public ResponseEntity<AuthResponse> login(@Valid @RequestBody LoginRequest request) { return ResponseEntity.ok(authService.login(request)); }
+
+    @GetMapping("/me")
+    @Operation(summary = "Get current authenticated user profile")
+    public ResponseEntity<AuthResponse> me(Authentication authentication) {
+        return ResponseEntity.ok(authService.getCurrentUser(authentication.getName()));
+    }
 }
